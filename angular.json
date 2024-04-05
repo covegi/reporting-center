@@ -88,6 +88,23 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "moxyid:build:production",
+              "serveTarget": "moxyid:serve:production"
+            },
+            "development": {
+              "buildTarget": "moxyid:build:development",
+              "serveTarget": "moxyid:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

@@ -1,0 +1,9 @@
+<form [formGroup]="form">
+    <input type="email" placeholder="Email address" formControlName="email">
+    <select formControlName="role">
+        <option value="admin">Admin</option>
+        <option value="super-user">Super User</option>
+        <option value="user">User</option>
+    </select>
+    <input type="text" placeholder="Name" formControlName="name">
+</form>

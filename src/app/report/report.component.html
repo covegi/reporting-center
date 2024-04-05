@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+    <input type="text" placeholder="Name of report" formControlName="name">
+    <textarea formControlName="description"></textarea>
+    <div formArrayName="todos">
+        @for(todo of form.controls.todos.controls; track todo; let index = $index) {
+            <div [formGroupName]="index">
+                <input type="checkbox" formControlName="completed"/>
+                <input type="text" placeholder="description" formControlName="description" />
+                <button (click)="removeTodo(index)">Remove Todo</button>
+            </div>
+        }
+        <button (click)="addTodo()">Add Todo</button>
+    </div>
+</form>

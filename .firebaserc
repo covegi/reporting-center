@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "moxyid-f78c8": {
+      "hosting": {
+        "moxyid": [
+          "moxyid-f78c8"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "moxyid-f78c8"
+  }
+}

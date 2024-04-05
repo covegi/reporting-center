@@ -1,0 +1,19 @@
+<table>
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (report of $reports | async; track report) {
+        <tr>
+          <td>
+            <a [routerLink]="report['id']">{{ report['name'] }}</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  
