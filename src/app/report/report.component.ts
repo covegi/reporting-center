@@ -6,18 +6,7 @@ import { DocumentData, DocumentReference, Firestore, doc, docData, updateDoc } f
 import { firstValueFrom } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { JsonPipe } from '@angular/common';
-
-export interface Report {
-  id: string;
-  name: string;
-  description: string;
-  todos: Array<Todo>;
-}
-
-export interface Todo {
-  description: string;
-  completed: boolean;
-}
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-report',
@@ -27,8 +16,9 @@ export interface Todo {
   styleUrl: './report.component.css'
 })
 export class ReportComponent {
+  private api = inject(ApiService);
   private activatedRoute = inject(ActivatedRoute);
-  private firestore = inject(Firestore);
+  private reportId = this.activatedRoute.snapshot.params['id'];
 
   form = new FormGroup({
     name: new FormControl(),
@@ -55,22 +45,17 @@ export class ReportComponent {
   }
 
   constructor() {
-    const documentRef = doc(this.firestore, "reports", this.activatedRoute.snapshot.params['id']);
-
     // Ensures that form is updated when backend updates
-    firstValueFrom(docData(documentRef))
+    firstValueFrom(this.api.reports.get(this.reportId))
       .then((report) => {
+        // Adds form fields for todos based on values in backend
         report!['todos'].forEach(() => this.addTodo());
+        // Set form values based on value in backend
         this.form.patchValue(report!);
-      })
-      .then(() =>
-        // Persists updates to backend
-        this.form.valueChanges.pipe(
-          debounceTime(200)
-        ).subscribe((report) => {
-          console.table(report.todos)
-          updateDoc(documentRef, report)
-      })
-    )
+        // Persist updates to backend
+        this.form.valueChanges
+          .pipe(debounceTime(200))
+          .subscribe(this.api.reports.update(this.reportId));
+      });
   }
 }

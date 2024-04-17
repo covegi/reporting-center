@@ -3,8 +3,8 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 // import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { collection, collectionData } from '@angular/fire/firestore';
-import { DbService } from '../../services/db.service';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+// import { DbService } from '../../services/db.service';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +14,7 @@ import { DbService } from '../../services/db.service';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  constructor(private db: DbService) {}
-  // $users = collectionData(collection(inject(Firestore), "users"), { idField: "id"});
-  $users = collectionData(collection(this.db.firestore, "users"), { idField: "id"});
+  // constructor(private db: DbService) {}
+  $users = collectionData(collection(inject(Firestore), "users"), { idField: "id"});
+  // $users = collectionData(collection(this.db.firestore, "users"), { idField: "id"});
 }
