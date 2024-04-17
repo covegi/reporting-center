@@ -1,18 +1,46 @@
-<footer class="bg-orange-600">
-  <nav>
-    <ul>
-      <li>
-        <a routerLink="users">Användare</a>
-      </li>
-      <li>
-        <a routerLink="reports">Rapporter</a>
-      </li>
-    </ul>
-  </nav>
-</footer>
-<main class="bg-teal-500">
-  <router-outlet />
-</main>
-<footer class="bg-blue-700">
-  Footer
-</footer>
+<div class="min-h-screen flex flex-col justify-between bg-slate-300">
+  <div class="flex flex-col flex-grow">
+      <nav class="flex items-center justify-between mb-4">
+        <div class="text-2xl text-white pl-8 pt-4">
+          <a href="/">MoxyId</a>  
+        </div>
+        <ul class="flex flex-row space-x-6 pr-12 pt-4 text-white text-lg">
+          <li>
+            <a routerLink="users">Users</a>
+          </li>
+          <li>
+            <a routerLink="reports">Reports</a>
+          </li>
+        </ul>
+      </nav>
+
+      <section class="flex justify-center flex-grow bg-slate-100">
+        
+        <div class="mt-8">
+              <router-outlet />
+        </div>
+
+      </section>
+
+      
+
+  </div>
+  <footer class="flex items-center justify-center text-black text-sm h-12">
+      &copy; MoxyId {{ time }}
+  </footer>
+</div>
+
+
+    <!-- Start Log in -->
+    <!-- <div class="mt-16 mb-16">
+        <h1 class="text-5xl font-semibold text-center">Log in</h1>
+    </div>
+    <form>
+        <div>
+            <input type="text" class="block w-96 h-10 rounded-2xl placeholder:pl-3 mb-5 shadow-sm hover:shadow-md" placeholder="Email"/>
+        </div>
+        <div>
+            <input type="password" class="block w-96 h-10 rounded-2xl placeholder:pl-3 shadow-sm hover:shadow-md" placeholder="Password"/>
+        </div>
+    </form> -->
+    <!-- End Log in -->
