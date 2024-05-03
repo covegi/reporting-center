@@ -1,49 +1,47 @@
 <div class="container mx-auto rounded-md px-4 sm_px:8 bg-slate-100">
-    <div class="pt-8">
-        <h2 class="text-2xl font-semibold leading-tight">User</h2>
-    </div>
-    <div class="-mx-4 sm:8-mx-8 px-4 py-4 overflow-auto-0">
-
-        
-            <form [formGroup]="form">
-                <label class="pl-2 text-slate-600 text-sm">Name</label>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    formControlName="name"
-                    class="min-w-full shadow rounded-lg py-2 pl-3 mb-3 text-sm">
-                <label class="pl-2 text-slate-600 text-sm">Email</label>
-                <input
-                    type="email"
-                    placeholder="Email address"
-                    formControlName="email"
-                    class="min-w-full shadow rounded-lg py-2 pl-3 mb-3 text-sm" />
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="group">
-                        <label class="pl-2 text-slate-600 text-sm">Role</label>
-                        <select
-                            formControlName="role"
-                            class="w-full shadow rounded-lg block py-2 mb-3 pl-2 text-sm">
-                                <option value="admin">Admin</option>
-                                <option value="super-user">Super User</option>
-                                <option value="user">User</option>
-                        </select>
-                    </div>
-                    <div class="group">
-                        <label class="pl-2 text-slate-600 text-sm">Status</label>
-                        <select class="w-full shadow rounded-lg block py-2 pl-2 text-sm">
-                            <option>Active</option>
-                            <option>Inactive</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex items-center justify-end space-x-2 mt-6">
-                    <button class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700">Delete</button>
-                    <button class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700">Save</button>
-                </div>
-            </form>
-    </div>
-
+  <div class="pt-8">
+    <h2 class="text-2xl font-semibold leading-tight">User</h2>
+  </div>
+  <div class="-mx-4 sm:8-mx-8 px-4 py-4 overflow-auto-0">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label class="pl-2 text-slate-600 text-sm">Email
+      <input
+        type="email"
+        placeholder="Email address"
+        formControlName="email"
+        readonly
+        class="min-w-full shadow rounded-lg py-2 pl-3 mb-3 text-sm"
+      />
+    </label>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="group">
+          <label class="pl-2 text-slate-600 text-sm">Role
+          <select
+            formControlName="role"
+            class="w-full shadow rounded-lg block py-2 mb-3 pl-2 text-sm"
+          >
+            <option value="admin">Admin</option>
+            <option value="super-user">Super User</option>
+            <option value="user">User</option>
+          </select>
+        </label>
+        </div>
+      </div>
+      <div class="flex items-center justify-end space-x-2 mt-6">
+        <button
+          type="reset"
+          (click)="onDelete()"
+          class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700"
+        >
+          Delete
+        </button>
+        <button
+          type="submit"
+          class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-

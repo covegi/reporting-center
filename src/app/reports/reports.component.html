@@ -2,53 +2,63 @@
   <div class="pt-8">
     <h2 class="text-2xl font-semibold leading-tight">Reports</h2>
   </div>
-  
+
   <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-  <div class="inline-block-min-w-full shadow rounded-lg overflow-hidden">
+    <div class="inline-block-min-w-full shadow rounded-lg overflow-hidden">
       <table class="min-w-full leading-normal">
-          <thead>
+        <thead>
+          <tr>
+            <th
+              class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
+            >
+              Name
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
+            >
+              Date
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
+            >
+              To-dos
+            </th>
+            <th
+              class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
+            >
+              Details
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (report of $reports | async; track report) {
             <tr>
-              <th class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600
-                uppercase tracking-wider">
-                Name
-              </th>
-              <th class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600
-                uppercase tracking-wider">
-                Date
-              </th>
-              <th class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600
-                uppercase tracking-wider">
-                To-dos
-              </th>
-              <th class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600
-                uppercase tracking-wider">
-                Details
-              </th>
+              <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
+                <a class="ml-3">{{ report["name"] }}</a>
+              </td>
+              <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
+                <span class="ml-3">2024-05-15</span>
+              </td>
+              <td
+                class="px-2 py-5 border-b border-slate-200 bg-white text-sm text-center"
+              >
+                <span class="text-red-600">3</span> /
+                <span class="text-green-600">5</span>
+              </td>
+              <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
+                <div [routerLink]="report['id']" class="w-4 mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path
+                      d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z"
+                    />
+                  </svg>
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            @for (report of $reports | async; track report) {
-              <tr>
-                <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
-                  <a class="ml-3">{{ report['name'] }}</a>
-                </td>
-                <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm"><span class="ml-3">2024-05-15</span></td>
-                <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm text-center">
-                  <span class="text-red-600">3</span> / <span class="text-green-600">5</span>
-                </td>
-                <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm ">
-                  <div [routerLink]="report['id']" class="w-4 mx-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z"/>
-                    </svg>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-  
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-  </div>
-  </div>
-  
-  
+</div>

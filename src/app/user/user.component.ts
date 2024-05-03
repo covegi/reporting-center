@@ -1,10 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 
-import { debounceTime } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
-import { firstValueFrom } from 'rxjs';
+import { UserRole } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-user',
@@ -16,22 +20,42 @@ import { firstValueFrom } from 'rxjs';
 export class UserComponent {
   private api = inject(ApiService);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+
   private userId = this.activatedRoute.snapshot.params['id'];
 
   form = new FormGroup({
-    role: new FormControl(),
-    email: new FormControl(),
-    name: new FormControl()
-  })
+    role: new FormControl<UserRole>('user', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.email],
+    }),
+  });
 
   constructor() {
-    // Persist updates to backend
-    this.form.valueChanges
-      .pipe(debounceTime(200))
-      .subscribe(this.api.users.update(this.userId));
-
     // Populates the form with the values stored in database
-    firstValueFrom(this.api.users.get(this.userId))
-      .then((user) => this.form.patchValue(user!))
+    this.api.users
+      .get(this.userId)
+      .then((user) => this.form.patchValue(user))
+      .catch(console.error);
+  }
+
+  onSubmit() {
+    this.api.users
+      .update(this.userId, this.form.value)
+      // Navigate to /users after update
+      .then(() => this.router.navigate(['users']))
+      .catch(console.error);
+  }
+
+  onDelete() {
+    this.api.users
+      .delete(this.userId)
+      // Navigate to /users after update
+      .then(() => this.router.navigate(['users']))
+      .catch(console.error);
   }
 }

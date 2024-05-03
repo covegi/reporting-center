@@ -1,0 +1,19 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>
+    Email
+    <input type="email" formControlName="email" />
+  </label>
+
+  <label>
+    Password
+    <input type="password" formControlName="password" />
+  </label>
+
+  @if (form.dirty && form.invalid) {
+    <small class="p-3 bg-red-600 text-white">
+      Ange korrekt lösenord och epost
+    </small>
+  }
+
+  <button [disabled]="form.invalid">Submit</button>
+</form>

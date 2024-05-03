@@ -11,10 +11,12 @@ import { Firestore, collection, collectionData } from '@angular/fire/firestore';
   standalone: true,
   imports: [RouterLink, AsyncPipe, JsonPipe],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrl: './users.component.css',
 })
 export class UsersComponent {
   // constructor(private db: DbService) {}
-  $users = collectionData(collection(inject(Firestore), "users"), { idField: "id"});
+  $users = collectionData(collection(inject(Firestore), 'users'), {
+    idField: 'id',
+  });
   // $users = collectionData(collection(this.db.firestore, "users"), { idField: "id"});
 }
