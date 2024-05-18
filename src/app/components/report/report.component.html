@@ -18,14 +18,26 @@
         formControlName="name"
         class="bg-transparent"
       />
-      <button
-        class="px-2 rounded-2xl bg-black text-white text-xs hover:shadow-md"
-      >
-        Upload
-      </button>
     </div>
     <div class="min-w-full h-0.5 bg-slate-300 mt-3 mb-2"></div>
-
+    @if (api.auth.user()?.role === 'admin') {
+      <input
+        type="file"
+        accept="application/pdf"
+        class="border border-blue-300 p-5 border-dashed hover:border-blue-500"
+        (dragenter)="isDragover = true"
+        (dragleave)="isDragover = false"
+        (change)="onUploadFile($event)"
+        [class.border-red-500]="isDragover"
+      />
+      <button type="button" (click)="onDeleteFile()">Remove</button>
+    }
+    {{ report() | json }}
+    @if (report()?.file) {
+      <a class="border border-red-600" [href]="report()!.file.url" [download]="report()!.file.name">
+        {{ report()!.file.name }}
+      </a>
+    }
     <div class="text-sm text-thin mb-2">To-do List</div>
     <div formArrayName="todos">
       @for (
@@ -55,8 +67,6 @@
         </div>
         <button (click)="addTodo()" class="text-xs mt-1">Add</button>
       </div>
-
-      <div class="min-w-full h-0.5 bg-slate-300 my-3"></div>
     </div>
     <textarea
       formControlName="description"
@@ -72,6 +82,7 @@
       </button>
       <button
         type="submit"
+        [disabled]="form.invalid"
         class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
       >
         Save

@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 
 import { canActivate, hasCustomClaim } from '@angular/fire/auth-guard';
 
-import { UsersComponent } from './users/users.component';
-import { UserComponent } from './user/user.component';
-import { ReportsComponent } from './reports/reports.component';
-import { ReportComponent } from './report/report.component';
-import { SignupComponent } from './signup/signup.component';
-import { SigninComponent } from './signin/signin.component';
-import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserComponent } from './components/user/user.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { ReportComponent } from './components/report/report.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +26,7 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
-    ...canActivate(() => hasCustomClaim('isAdmin')),
+    // ...canActivate(() => hasCustomClaim('isAdmin')),
   },
   {
     path: 'users/:id',

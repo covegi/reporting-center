@@ -3,6 +3,10 @@ export interface Report {
   name: string;
   description: string;
   todos: Array<Todo>;
+  file: {
+    name: string;
+    url: string;
+  };
 }
 
 // TODO: These should not be optional.

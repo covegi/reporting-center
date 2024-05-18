@@ -1,11 +1,102 @@
 import { auth } from 'firebase-functions';
-import { firestore } from 'firebase-functions/v2';
+import { firestore, storage, setGlobalOptions } from 'firebase-functions/v2';
 import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getStorage } from 'firebase-admin/storage';
+
 import { getAuth } from 'firebase-admin/auth';
 import * as logger from 'firebase-functions/logger';
 
 initializeApp();
+setGlobalOptions({ region: 'europe-west3' });
+
+/**
+ * When a file is uploaded to Storage we will add the file information like its name and public URL to
+ * a corresponding record of the collection (folder where file is uploaded) in Firestore
+ */
+export const onFileCreate = storage.onObjectFinalized(async (event) => {
+  const [collection, documentId, name] = event.data.name.split('/');
+
+  logger.debug(`file created on ${event.data.name}`);
+  if (!['reports', 'users', 'organizations'].includes(collection))
+    throw Error(
+      `The collection ${collection} is invalid. It should be reports, users or organizations.`,
+    );
+
+  await getFirestore()
+    .collection(collection)
+    .doc(documentId)
+    .get()
+    .then(async (documentSnapshot) => {
+      if (!documentSnapshot.exists)
+        throw Error(
+          `The document ${collection}/${documentId} does not exist in database`,
+        );
+
+      logger.debug(`generate public path for file`);
+      // TODO: This still gives some error:
+      // <Error>
+      //   <Code>AccessDenied</Code>
+      //   <Message>Access denied.</Message>
+      //   <Details>Anonymous caller does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource (or it may not exist).</Details>
+      // </Error>
+      const url = getStorage().bucket().file(event.data.name).publicUrl();
+      logger.log(`public url was generated`, url);
+
+      logger.debug(`add file information to database`);
+
+      return documentSnapshot.ref
+        .update({
+          file: { name, url },
+        })
+        .then(() => logger.info(`file information was added to database`))
+        .catch((error) => {
+          logger.error(
+            `could not add file information for ${collection}/${documentId} because of an unknown exception`,
+            error,
+          );
+        });
+    });
+});
+
+/**
+ * When a file is deleted from Storage we will remove the file information like its name and public URL to
+ * the corresponding record of the collection (folder where file is uploaded) in Firestore
+ */
+export const onDeleteFile = storage.onObjectDeleted(async (event) => {
+  const [collection, documentId] = event.data.name.split('/');
+
+  logger.debug(`file deleted on ${event.data.name}`);
+  if (!['reports', 'users', 'organizations'].includes(collection))
+    throw Error(
+      `The collection ${collection} is invalid. It should be reports, users or organizations.`,
+    );
+
+  await getFirestore()
+    .collection(collection)
+    .doc(documentId)
+    .get()
+    .then(async (documentSnapshot) => {
+      if (!documentSnapshot.exists)
+        throw Error(
+          `The document ${collection}/${documentId} does not exist in database`,
+        );
+
+      logger.debug(`delete file information from database`);
+
+      return documentSnapshot.ref
+        .update({
+          file: null,
+        })
+        .then(() => logger.info(`file information was deleted from database`))
+        .catch((error) => {
+          logger.error(
+            `could not delete file information for ${collection}/${documentId} because of an unknown exception`,
+            error,
+          );
+        });
+    });
+});
 
 /**
  * When a user is created in Firebase Auth we will create a user with the same ID in Firestore

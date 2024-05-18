@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ReactiveFormsModule,
@@ -7,22 +7,26 @@ import {
   FormArray,
   Validators,
 } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../../services/api.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './report.component.html',
   styleUrl: './report.component.css',
 })
 export class ReportComponent {
-  private api = inject(ApiService);
-  private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
-
+  private activatedRoute = inject(ActivatedRoute);
   private reportId = this.activatedRoute.snapshot.params['id'];
+
+  api = inject(ApiService);
+  report = toSignal(this.api.reports.get(this.reportId));
+  isDragover = false;
 
   form = new FormGroup({
     name: new FormControl('', {
@@ -65,15 +69,15 @@ export class ReportComponent {
 
   constructor() {
     // Populates the form with the values stored in database
-    this.api.reports
-      .get(this.reportId)
-      .then((report) => {
+    effect(() => {
+      if (this.report()) {
         // Adds form fields for todos based on values in backend
-        report.todos.forEach(this.addTodo);
+        // TODO: This adds an empty todo. Problem is here somewhere
+        this.report()!.todos.forEach(this.addTodo);
         // Set form values based on values in backend
-        this.form.patchValue(report);
-      })
-      .catch(console.error);
+        this.form.patchValue(this.report()!);
+      }
+    });
   }
 
   onSubmit() {
@@ -90,5 +94,14 @@ export class ReportComponent {
       // Navigate to /reports after update
       .then(() => this.router.navigate(['reports']))
       .catch(console.error);
+  }
+
+  onUploadFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.api.reports.createFile(this.reportId, input.files!.item(0)!);
+  }
+
+  onDeleteFile() {
+    this.api.reports.deleteFile(this.reportId);
   }
 }

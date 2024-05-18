@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ReactiveFormsModule,
@@ -6,9 +6,10 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { ApiService } from '../services/api.service';
-import { UserRole } from '../interfaces/user.interface';
+import { ApiService } from '../../services/api.service';
+import { UserRole } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-user',
@@ -23,6 +24,7 @@ export class UserComponent {
   private router = inject(Router);
 
   private userId = this.activatedRoute.snapshot.params['id'];
+  private user = toSignal(this.api.users.get(this.userId));
 
   form = new FormGroup({
     role: new FormControl<UserRole>('user', {
@@ -37,10 +39,7 @@ export class UserComponent {
 
   constructor() {
     // Populates the form with the values stored in database
-    this.api.users
-      .get(this.userId)
-      .then((user) => this.form.patchValue(user))
-      .catch(console.error);
+    effect(() => this.form.patchValue(this.user()!));
   }
 
   onSubmit() {

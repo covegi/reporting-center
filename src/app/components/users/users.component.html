@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (user of $users | async; track user) {
+          @for (user of users | async; track user) {
             <tr>
               <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
                 <div class="ml-3">
@@ -78,6 +78,9 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <button (click)="onCreate()">Create Report</button>
+        </tfoot>
       </table>
     </div>
   </div>
