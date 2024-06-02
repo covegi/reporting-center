@@ -18,9 +18,19 @@
         formControlName="name"
         class="bg-transparent"
       />
+      <input
+        type="text"
+        placeholder="Project"
+        formControlName="project"
+      />
+      <input
+        type="text"
+        placeholder="Contractor"
+        formControlName="contractor"
+      />
     </div>
     <div class="min-w-full h-0.5 bg-slate-300 mt-3 mb-2"></div>
-    @if (api.auth.user()?.role === 'admin') {
+    @if (api.auth.user()?.admin) {
       <input
         type="file"
         accept="application/pdf"
@@ -32,19 +42,23 @@
       />
       <button type="button" (click)="onDeleteFile()">Remove</button>
     }
-    {{ report() | json }}
     @if (report()?.file) {
       <a class="border border-red-600" [href]="report()!.file.url" [download]="report()!.file.name">
         {{ report()!.file.name }}
       </a>
     }
+    <div class="text-sm text-thin mb-2">Users</div>
+    <select multiple formControlName="users">
+      @for (
+        user of users();
+        track user.id;
+      ) {
+        <option [value]="user.id" [selected]="getUserSelected(user.id)">{{ user.email }}</option>
+      }
+    </select>
     <div class="text-sm text-thin mb-2">To-do List</div>
     <div formArrayName="todos">
-      @for (
-        todo of form.controls.todos.controls;
-        track todo;
-        let index = $index
-      ) {
+      @for (todo of form.controls.todos.controls; track todo;  let index = $index) {
         <div [formGroupName]="index">
           <input type="checkbox" formControlName="completed" />
           <input
@@ -53,7 +67,7 @@
             formControlName="description"
             class="pl-2 text-xs bg-transparent"
           />
-          <button (click)="removeTodo(index)" class="text-xs">Remove</button>
+          <button type="button" (click)="removeTodo(index)" class="text-xs">Remove</button>
         </div>
       }
       <div class="flex items-center space-x-1">
@@ -65,7 +79,7 @@
             />
           </svg>
         </div>
-        <button (click)="addTodo()" class="text-xs mt-1">Add</button>
+        <button type="button" (click)="addTodo()" class="text-xs mt-1">Add</button>
       </div>
     </div>
     <textarea

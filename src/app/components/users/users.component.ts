@@ -15,11 +15,4 @@ export class UsersComponent {
   private router = inject(Router);
 
   users = this.api.users.getAll();
-
-  onCreate() {
-    this.api.users
-      .create()
-      .then((id) => this.router.navigate(['users', id]))
-      .catch(console.error);
-  }
 }

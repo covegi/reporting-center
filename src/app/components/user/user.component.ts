@@ -9,7 +9,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ApiService } from '../../services/api.service';
-import { UserRole } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-user',
@@ -26,9 +25,8 @@ export class UserComponent {
   private user = toSignal(this.api.users.get(this.userId));
 
   form = new FormGroup({
-    role: new FormControl<UserRole>('user', {
+    admin: new FormControl<boolean>(false, {
       nonNullable: true,
-      validators: [Validators.required],
     }),
     email: new FormControl('', {
       nonNullable: true,

@@ -1,12 +1,15 @@
 export interface Report {
   id: string;
   name: string;
+  project: string;
+  contractor: string;
   description: string;
   todos: Array<Todo>;
   file: {
     name: string;
     url: string;
   };
+  users: Array<string>;
 }
 
 // TODO: These should not be optional.

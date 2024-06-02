@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 
-import { canActivate, hasCustomClaim } from '@angular/fire/auth-guard';
+import {
+  canActivate,
+  hasCustomClaim,
+  redirectUnauthorizedTo,
+} from '@angular/fire/auth-guard';
 
 import { UsersComponent } from './components/users/users.component';
 import { UserComponent } from './components/user/user.component';
@@ -27,18 +31,22 @@ export const routes: Routes = [
     path: 'users',
     component: UsersComponent,
     // ...canActivate(() => hasCustomClaim('isAdmin')),
+    ...canActivate(() => redirectUnauthorizedTo('')),
   },
   {
     path: 'users/:id',
     component: UserComponent,
-    ...canActivate(() => hasCustomClaim('isAdmin')),
+    // ...canActivate(() => hasCustomClaim('isAdmin')),
+    ...canActivate(() => redirectUnauthorizedTo('')),
   },
   {
     path: 'reports',
     component: ReportsComponent,
+    ...canActivate(() => redirectUnauthorizedTo('')),
   },
   {
     path: 'reports/:id',
     component: ReportComponent,
+    ...canActivate(() => redirectUnauthorizedTo('')),
   },
 ];
