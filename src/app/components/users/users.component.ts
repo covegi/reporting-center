@@ -9,18 +9,10 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [RouterLink, AsyncPipe, JsonPipe],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css',
 })
 export class UsersComponent {
   private api = inject(ApiService);
   private router = inject(Router);
 
   users = this.api.users.getAll();
-
-  onCreate() {
-    this.api.users
-      .create()
-      .then((id) => this.router.navigate(['users', id]))
-      .catch(console.error);
-  }
 }

@@ -13,7 +13,6 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './signin.component.html',
-  styleUrl: './signin.component.css',
 })
 export class SigninComponent {
   api = inject(ApiService);

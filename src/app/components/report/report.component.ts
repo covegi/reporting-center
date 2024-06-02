@@ -10,14 +10,13 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ApiService } from '../../services/api.service';
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe],
+  imports: [ReactiveFormsModule, JsonPipe, AsyncPipe],
   templateUrl: './report.component.html',
-  styleUrl: './report.component.css',
 })
 export class ReportComponent {
   private router = inject(Router);
@@ -26,10 +25,20 @@ export class ReportComponent {
 
   api = inject(ApiService);
   report = toSignal(this.api.reports.get(this.reportId));
+  users = toSignal(this.api.users.getAll());
+
   isDragover = false;
 
   form = new FormGroup({
     name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    project: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    contractor: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -49,6 +58,10 @@ export class ReportComponent {
       ],
       { validators: [Validators.required] },
     ),
+    users: new FormControl<Array<string>>([], {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   addTodo = () => {
@@ -67,13 +80,18 @@ export class ReportComponent {
     this.form.controls.todos.removeAt(index);
   };
 
+  getUserSelected(userId: string) {
+    this.form.controls.users.value.includes(userId);
+  }
+
   constructor() {
     // Populates the form with the values stored in database
     effect(() => {
       if (this.report()) {
         // Adds form fields for todos based on values in backend
-        // TODO: This adds an empty todo. Problem is here somewhere
-        this.report()!.todos.forEach(this.addTodo);
+        this.form.controls.todos.removeAt(0);
+        const todos = this.report()!.todos;
+        if (todos?.length) this.report()!.todos.forEach(this.addTodo);
         // Set form values based on values in backend
         this.form.patchValue(this.report()!);
       }

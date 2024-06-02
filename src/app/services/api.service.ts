@@ -47,11 +47,9 @@ export class ApiService {
       /** Returns all records from database */
       // TODO: How to handle cases where we only want to return records for a specific user
       getAll: () =>
-        firstValueFrom(
-          collectionData(collection(this.#firestore, collectionName), {
-            idField: 'id',
-          }),
-        ) as Promise<Array<T>>,
+        collectionData(collection(this.#firestore, collectionName), {
+          idField: 'id',
+        }) as Observable<Array<T>>,
       /** Create new records in database and return its id */
       create: (data: Partial<T> | Record<string, never> = {}) =>
         addDoc(
