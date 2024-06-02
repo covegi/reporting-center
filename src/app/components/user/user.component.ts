@@ -16,7 +16,6 @@ import { UserRole } from '../../interfaces/user.interface';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.css',
 })
 export class UserComponent {
   private api = inject(ApiService);

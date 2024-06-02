@@ -17,7 +17,6 @@ import { JsonPipe } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './report.component.html',
-  styleUrl: './report.component.css',
 })
 export class ReportComponent {
   private router = inject(Router);

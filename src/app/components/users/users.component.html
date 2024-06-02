@@ -11,11 +11,6 @@
             <th
               class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
             >
-              Name
-            </th>
-            <th
-              class="px-5 py-3 border-b-2 border-slate-200 bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider"
-            >
               Email
             </th>
             <th
@@ -38,11 +33,7 @@
         <tbody>
           @for (user of users | async; track user) {
             <tr>
-              <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
-                <div class="ml-3">
-                  <p class="text-slate-900">{{ user["name"] }}</p>
-                </div>
-              </td>
+
               <td class="px-2 py-5 border-b border-slate-200 bg-white text-sm">
                 <div class="ml-3">
                   <p class="text-slate-900">{{ user["email"] }}</p>

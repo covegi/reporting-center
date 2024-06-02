@@ -9,7 +9,6 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [RouterLink, AsyncPipe, JsonPipe],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css',
 })
 export class UsersComponent {
   private api = inject(ApiService);
