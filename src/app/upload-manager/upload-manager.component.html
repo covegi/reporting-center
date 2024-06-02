@@ -1,0 +1,22 @@
+<div
+    appDropzone
+    (hovered)="toggleHover($event)"
+    (dropped)="onDrop($event)"
+    [class.border-dashed]="isHovering"
+    [class.border-4]="isHovering"
+    >
+    
+    <input type="file" 
+        class="
+           file:bg-cyan
+           file:px-4 file:py-2 file:m-3
+           file:border-none
+           file:rounded-full
+           file:cursor-pointer
+           file:shadow-md
+           bg-lightGray
+           rounded-full
+           text-sm
+           w-full
+        ">
+</div>

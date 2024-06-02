@@ -1,0 +1,19 @@
+<div class="container mx-auto">
+    <div class="pt-8 flex flex-row items-center justify-between">
+        <h2 class="text-2xl font-semibold leading-tight">Organization</h2>
+    </div>
+        <form [formGroup]="form" class="pt-4">
+            <input type="text" formControlName="name" class="input-field" placeholder="Enter Organization"/>
+            <div class="flex justify-between items-center mt-5">
+                <div class="text-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-2 inline pb-0.5"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+
+                <button (click)="onBack()" class="ml-0.5">Back</button>
+                </div>
+                <div>
+                    <button (click)="onSubmit()" class="button-save-base">Save</button>
+                    <button (click)="onDelete()" class="text-xs text-red ml-3">Delete</button>
+                </div>
+            </div>
+        </form>
+</div>

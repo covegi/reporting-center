@@ -5,6 +5,9 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import * as logger from 'firebase-functions/logger';
 
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+
 initializeApp();
 
 /**
@@ -64,3 +67,21 @@ export const onUserRoleChange = firestore.onDocumentUpdated(
     }
   },
 );
+
+exports.fileFirestoreCreate = functions.storage
+  .object()
+  .onFinalize(async (object) => {
+    const newFile = admin.storage().bucket(object.bucket).file(object.id);
+    const [downloadUrl] = await newFile.getSignedUrl({
+      action: 'read',
+      expires: '01-01-2033',
+    });
+
+    const reportId = object.metadata!.reportId;
+
+    await admin.firestore().collection('reports').doc(reportId).update({
+      download: downloadUrl,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    console.log('Download Url stored in Firestore', downloadUrl);
+  });

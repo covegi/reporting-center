@@ -1,7 +1,10 @@
 export interface Report {
   id: string;
   name: string;
+  date: string;
+  downloadUrl: string[];
   description: string;
+  organization: string;
   todos: Array<Todo>;
 }
 

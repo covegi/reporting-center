@@ -1,47 +1,42 @@
-<div class="container mx-auto px-4 sm:px-8 rounded-md bg-slate-200">
-  <div class="py-8">
+<div class="container w-96 pt-8">
+  <div class="pt-3">
     <h2 class="text-2xl font-semibold leading-tight">Report Card</h2>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-2">
-    <div class="min-w-full h-0.5 bg-slate-300 mb-3"></div>
-    <div class="flex justify-start pl-1 space-x-3 h-5">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-        <path
-          d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"
-        />
-      </svg>
-      <input
+    <input
         type="text"
         placeholder="Name of report"
         formControlName="name"
-        class="bg-transparent"
+        class="bg-transparent text-sm mb-3"
       />
-      <button
-        class="px-2 rounded-2xl bg-black text-white text-xs hover:shadow-md"
-      >
-        Upload
-      </button>
-    </div>
-    <div class="min-w-full h-0.5 bg-slate-300 mt-3 mb-2"></div>
+      <hr class="text-lightGray mb-8">
 
-    <div class="text-sm text-thin mb-2">To-do List</div>
+      <app-upload-manager class="w-screen"></app-upload-manager>
+
+      <hr class="text-lightGray mt-8">
+    <div class="text-md text-gray mb-2 mt-5">To-do List</div>
     <div formArrayName="todos">
       @for (
         todo of form.controls.todos.controls;
         track todo;
         let index = $index
       ) {
-        <div [formGroupName]="index">
-          <input type="checkbox" formControlName="completed" />
-          <input
-            type="text"
-            placeholder="description"
-            formControlName="description"
-            class="pl-2 text-xs bg-transparent"
-          />
-          <button (click)="removeTodo(index)" class="text-xs">Remove</button>
+        <div [formGroupName]="index" class="flex items-center justify-between">
+          <div class="justify-start items-center space-x-2">
+            <div class="flex items-center py-2">
+              <input type="checkbox" formControlName="completed" />
+              <input
+                type="text"
+                placeholder="description"
+                formControlName="description"
+                class="pl-2 text-base"
+              />
+            </div>
+          </div>
+            <button (click)="removeTodo(index)" class="w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-color-red"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>  
+            </button>
         </div>
       }
       <div class="flex items-center space-x-1">
@@ -53,29 +48,39 @@
             />
           </svg>
         </div>
-        <button (click)="addTodo()" class="text-xs mt-1">Add</button>
+        <button (click)="addTodo()" class="text-sm mt-2">Add</button>
       </div>
 
       <div class="min-w-full h-0.5 bg-slate-300 my-3"></div>
     </div>
     <textarea
       formControlName="description"
-      class="min-w-full rounded-sm h-32 px-1 py-1 text-xs"
+      class="min-w-full rounded-2xl border-gray border-[1px] h-44 px-1 py-1 text-xs"
     ></textarea>
-    <div class="flex items-center justify-end space-x-2 mt-6">
-      <button
-        type="reset"
-        (click)="onDelete()"
-        class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700"
-      >
-        Delete
-      </button>
-      <button
-        type="submit"
-        class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
-      >
-        Save
-      </button>
-    </div>
+    <div class="flex items-center justify-between pt-3 pb-12">
+
+          <div class="text-xs">
+            <button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-2 inline pb-0.5"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+            Back
+          </button>
+        </div>
+        <div>  
+          <button
+            type="submit"
+            class="button-save-base"
+          >
+            Save
+          </button>
+          <button
+            type="reset"
+            (click)="onDelete()"
+            class="text-red text-xs ml-3"
+          >
+            Delete
+          </button>
+          
+        </div>
+      </div>
   </form>
 </div>

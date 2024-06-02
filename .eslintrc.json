@@ -27,8 +27,15 @@
             "prefix": "app",
             "style": "kebab-case"
           }
+        ],
+        "prettier/prettier": [
+          "error",
+          {
+            "endOfLine": "auto"
+          }
         ]
       }
+      
     },
     {
       "files": ["*.html"],

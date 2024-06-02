@@ -1,0 +1,50 @@
+<div class="container mx-auto pt-8">
+    <div class="flex justify-between">
+        <h2 class="text-2xl font-semibold leading-tight">Organizations</h2>
+       <div>
+            <button (click)="addOrg()" class="border-[2px] border-lightGray px-1.5 py-1.5 rounded-full">
+                <div class="w-3">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-color">
+                        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+                        />
+                    </svg>
+                    </span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <div class="-mx-4 sm:-mx-8 w-96 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="border-b-2 px-5 py-3 bg-lightGray text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">name</th>
+                        <th class="bg-lightGray border-b-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (organization of $organizations | async; track organization) {
+                            <tr (click)="getSelectedOrganization(organization['name'])">
+                                    <td
+                                        [ngClass]="{'text-red-500': organization['name'] === 'Enter Organization'}"
+                                        class="px-5 py-5 border-b border-slate-200 bg-white text-sm">{{ organization["name"] }}
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-slate-200 bg-white text-sm text-right">
+                                        <a 
+                                            [fragment]="organization['name']"
+                                            [routerLink]="organization['id']"
+                                            class="button-edit-sm"
+                                        >Edit</a>
+                                    </td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>

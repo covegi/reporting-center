@@ -9,13 +9,14 @@ import {
 } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
+import { UploadManagerComponent } from '../upload-manager/upload-manager.component';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [ReactiveFormsModule],
   templateUrl: './report.component.html',
   styleUrl: './report.component.css',
+  imports: [ReactiveFormsModule, UploadManagerComponent],
 })
 export class ReportComponent {
   private api = inject(ApiService);
@@ -85,7 +86,7 @@ export class ReportComponent {
   }
 
   onDelete() {
-    this.api.users
+    this.api.reports
       .delete(this.reportId)
       // Navigate to /reports after update
       .then(() => this.router.navigate(['reports']))

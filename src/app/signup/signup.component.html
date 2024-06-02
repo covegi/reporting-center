@@ -1,19 +1,28 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <label>
-    Email
-    <input type="email" formControlName="email" />
-  </label>
+<div class="flex flex-col justify-center mt-24"> 
+  <div class="pt-3">
+    <h2 class="text-2xl text-center font-semibold leading-tight mb-5">Skapa konto</h2>
+  </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <input class="block w-full input-field mb-5" type="email" placeholder="Email" formControlName="email" />
+      </div>
+      <div>
+        <input class="block w-full input-field mb-8" type="password" placeholder="Lösenord" formControlName="password" />
+      </div>
 
-  <label>
-    Password
-    <input type="password" formControlName="password" />
-  </label>
+      @if (form.dirty && form.invalid) {
+        <small class="p-3 bg-red-600 text-white">
+          Ange korrekt lösenord och epost
+        </small>
+      }
+      <div class="flex justify-center">
+        <button [disabled]="form.invalid" class="button-edit-base w-">Skapa</button>
+      </div>
+    </form>
+</div>
 
-  @if (form.dirty && form.invalid) {
-    <small class="p-3 bg-red-600 text-white">
-      Ange korrekt lösenord och epost
-    </small>
-  }
 
-  <button [disabled]="form.invalid">Submit</button>
-</form>
+ 
+
+    
+  

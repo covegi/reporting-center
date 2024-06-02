@@ -1,24 +1,37 @@
-<div class="container mx-auto rounded-md px-4 sm_px:8 bg-slate-100">
+<div class="container mx-auto max-w-md">
   <div class="pt-8">
     <h2 class="text-2xl font-semibold leading-tight">User</h2>
   </div>
   <div class="-mx-4 sm:8-mx-8 px-4 py-4 overflow-auto-0">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <label class="pl-2 text-slate-600 text-sm">Email
+    <form [formGroup]="form"> 
+      <!-- (ngSubmit)="onSubmit() -->
+    <div class="pb-4">
+      <label class="pl-2 text-grey text-sm">Name
       <input
-        type="email"
-        placeholder="Email address"
-        formControlName="email"
-        readonly
-        class="min-w-full shadow rounded-lg py-2 pl-3 mb-3 text-sm"
+        type="text"
+        placeholder="Name"
+        formControlName="name"
+        class="input-field"
       />
-    </label>
+      </label>
+    </div>
+    <div class="pb-4">
+      <label for="email" class="pl-2 text-sm">Email
+        <input
+          type="email"
+          id="email"
+          placeholder="Email address"
+          formControlName="email"
+          class="input-field"
+        />
+      </label>
+    </div>
       <div class="grid grid-cols-2 gap-4">
         <div class="group">
           <label class="pl-2 text-slate-600 text-sm">Role
           <select
             formControlName="role"
-            class="w-full shadow rounded-lg block py-2 mb-3 pl-2 text-sm"
+            class="input-field appearance-none"
           >
             <option value="admin">Admin</option>
             <option value="super-user">Super User</option>
@@ -26,21 +39,43 @@
           </select>
         </label>
         </div>
+        <div class="group">
+          <label class="pl-2 text-slate-600 text-sm">Organization
+          <select
+            formControlName="organization"
+            class="input-field appearance-none">
+            @for (organization of $organizations | async; track organization) {
+            <option [value]="organization['name']">{{ organization['name'] }}</option>
+            }
+          </select>
+        </label>
+        </div>
       </div>
-      <div class="flex items-center justify-end space-x-2 mt-6">
-        <button
-          type="reset"
-          (click)="onDelete()"
-          class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700"
-        >
-          Delete
-        </button>
+      <div class="flex items-center justify-between space-x-2 mt-6">
         <button
           type="submit"
-          class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
+          (click)="onBack()"
+          class="text-xs"
         >
-          Save
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-2 inline pb-0.5"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+          Back
         </button>
+        <div>
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="button-save-base"
+          >
+            Save
+          </button>
+          <button
+            type="reset"
+            (click)="onDelete()"
+            class="ml-3 text-red text-xs"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </form>
   </div>

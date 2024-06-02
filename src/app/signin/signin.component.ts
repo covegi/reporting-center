@@ -35,4 +35,8 @@ export class SigninComponent {
       .then(() => this.router.navigateByUrl('/reports'))
       .catch(console.error);
   }
+
+  goToSignin() {
+    this.router.navigate(['signin']);
+  }
 }

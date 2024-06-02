@@ -1,53 +1,83 @@
-<div class="min-h-screen flex flex-col justify-between bg-slate-300">
+<div class="min-h-screen flex flex-col justify-between bg-white">
   <div class="flex flex-col flex-grow">
-    <nav class="flex items-center justify-between mb-4">
-      <div class="text-2xl text-white pl-8 pt-4">
-        <a href="/">MoxyId</a>
+    <nav class="flex flex-row justify-between bg-teal">
+      <div class="w-36 pl-8 py-4">
+        <a href="/">
+          <img src="assets/images/moxyid_logo.png" alt="">
+        </a>
       </div>
 
-      <ul class="flex flex-row space-x-6 pr-12 pt-4 text-white text-lg">
-        @if (api.auth.user()?.role === "admin") {
+      <div class="flex flex-row mt-1">
+        <ul class="flex flex-row justify-center space-x-6 pt-4 text-white text-md mr-[25rem]">
+            @if (api.auth.user()?.role === "admin") {
+          <li>
+            <a routerLink="users">Användare</a>
+          </li>
+          <li>
+            <a routerLink="organizations">Organisation </a>
+          </li>
         <li>
-          <a routerLink="users">Users</a>
-        </li>
+            <a routerLink="reports">Rapporter</a>
+          </li>  
         }
-        <li>
-          <a routerLink="reports">Reports</a>
-        </li>
-      </ul>
+        </ul>
 
-      <ul class="flex flex-row space-x-6 pr-12 pt-4 text-white text-lg">
-        @if (api.auth.user(); as user) {
-          <li>
-            {{ user.email }}
-            <small class="py-2 px-3 rounded bg-slate-400">{{ api.auth.user()?.role }}</small>
+        <ul class="flex flex-row justify-end space-x-6 pr-12 pt-4 text-white text-md">
+          @if (api.auth.user(); as user) {
+
+            <li>
+            <a routerLink="users">Användare</a>
           </li>
           <li>
-            <a
-              routerLink="/"
-              (click)="onSignOut()"
-            >
-              Sign-out</a
-            >
+            <a routerLink="organizations">Organisation </a>
           </li>
-        } @else {
+        <li>
+            <a routerLink="reports">Rapporter</a>
+          </li>  
+
+            <li>
+              <a
+          
+                routerLink="/" 
+                (click)="onSignOut()"
+              >
+                Logga ut</a
+              >
+            </li>
+            <li>
+              {{ user.email }}
+              <small class="py-2 px-3 ml-3 rounded-full bg-gray ">{{ api.auth.user()?.role }}</small>
+            </li>
+          } @else {
+            <li>
+            <a routerLink="users">Användare</a>
+          </li>
           <li>
-            <a routerLink="signup">Sign-up</a>
+            <a routerLink="organizations">Organisation </a>
           </li>
-          <li>
-            <a routerLink="signin">Sign-in</a>
-          </li>
-        }
-      </ul>
+        <li>
+            <a routerLink="reports">Rapporter</a>
+          </li>  
+
+            <li>
+              <a routerLink="signin">Logga in</a>
+            </li>
+            <li>
+              <a routerLink="signup">Skapa konto</a>
+            </li>
+            
+          }
+        </ul>
+      </div>
     </nav>
 
-    <section class="flex justify-center flex-grow bg-slate-100">
-      <div class="mt-8">
+    <section class="flex flex-grow justify-center">
+      
         <router-outlet />
-      </div>
+      
     </section>
   </div>
-  <footer class="flex items-center justify-center text-black text-sm h-12">
+  <footer class="flex items-center justify-center text-white bg-teal text-sm py-4">
     &copy; MoxyId {{ year }}
   </footer>
 </div>

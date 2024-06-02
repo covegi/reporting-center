@@ -9,11 +9,12 @@ import {
 
 import { ApiService } from '../services/api.service';
 import { UserRole } from '../interfaces/user.interface';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AsyncPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
@@ -21,6 +22,7 @@ export class UserComponent {
   private api = inject(ApiService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  $organizations = this.api.organizations.getAll();
 
   private userId = this.activatedRoute.snapshot.params['id'];
 
@@ -32,6 +34,13 @@ export class UserComponent {
     email: new FormControl('', {
       nonNullable: true,
       validators: [Validators.email],
+    }),
+    organization: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    name: new FormControl('', {
+      nonNullable: true,
     }),
   });
 
@@ -57,5 +66,9 @@ export class UserComponent {
       // Navigate to /users after update
       .then(() => this.router.navigate(['users']))
       .catch(console.error);
+  }
+
+  onBack() {
+    this.router.navigate(['users']);
   }
 }
