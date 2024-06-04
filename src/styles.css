@@ -40,7 +40,7 @@
 
 @layer components {
     .button-edit-sm {
-        @apply bg-cyan rounded-[50px] text-white text-xs font-bold py-1 px-3;
+        @apply bg-cyan rounded-[50px] shadow-lg border-lightGray text-white text-xs font-bold py-1 px-3;
     }
 }
 
@@ -54,11 +54,6 @@
     .input-field {
         @apply bg-white w-full border-[1px] border-gray rounded-full py-[10px] px-[20px] font-light;
     }
-
-@layer components {
-    .hover-link {
-        @apply h-0.5 w-full bg-white
-    }
 }
 
 @layer utilities {
@@ -71,5 +66,4 @@
     .svg-color-red {
         fill: red;
     }   
-}
 }
