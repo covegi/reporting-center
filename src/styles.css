@@ -55,6 +55,12 @@
         @apply bg-white w-full border-[1px] border-gray rounded-full py-[10px] px-[20px] font-light;
     }
 
+@layer components {
+    .hover-link {
+        @apply h-0.5 w-full bg-white
+    }
+}
+
 @layer utilities {
     .svg-color {
         fill: lightGray;
