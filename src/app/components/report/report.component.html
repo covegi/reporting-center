@@ -1,106 +1,137 @@
-<div class="container mx-auto px-4 sm:px-8 rounded-md bg-slate-200">
-  <div class="py-8">
-    <h2 class="text-2xl font-semibold leading-tight">Report Card</h2>
+<div class="container mx-auto px-4 rounded-md">
+  <div class="-mx-4 pt-8">
+    <h2 class="text-2xl font-extrabold leading-tight">Rapport</h2>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-2">
-    <div class="min-w-full h-0.5 bg-slate-300 mb-3"></div>
-    <div class="flex justify-start pl-1 space-x-3 h-5">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-        <path
-          d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"
+  <div class="-mx-4 mt-4 shadow-md overflow-x-auto">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-2">
+      <div class="flex justify-start space-x-3 h-5">
+        <input
+          type="text"
+          placeholder="Ange rapportnamn"
+          formControlName="name"
+          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder:uppercase tracking-wider"
         />
-      </svg>
-      <input
-        type="text"
-        placeholder="Name of report"
-        formControlName="name"
-        class="bg-transparent"
-      />
-      <input
-        type="text"
-        placeholder="Project"
-        formControlName="project"
-      />
-      <input
-        type="text"
-        placeholder="Contractor"
-        formControlName="contractor"
-      />
-    </div>
-    <div class="min-w-full h-0.5 bg-slate-300 mt-3 mb-2"></div>
-    @if (api.auth.user()?.admin) {
-      <input
-        type="file"
-        accept="application/pdf"
-        class="border border-blue-300 p-5 border-dashed hover:border-blue-500"
-        (dragenter)="isDragover = true"
-        (dragleave)="isDragover = false"
-        (change)="onUploadFile($event)"
-        [class.border-red-500]="isDragover"
-      />
-      <button type="button" (click)="onDeleteFile()">Remove</button>
-    }
-    @if (report()?.file) {
-      <a class="border border-red-600" [href]="report()!.file.url" [download]="report()!.file.name">
-        {{ report()!.file.name }}
-      </a>
-    }
-    <div class="text-sm text-thin mb-2">Users</div>
-    <select multiple formControlName="users">
-      @for (
-        user of users();
-        track user.id;
-      ) {
-        <option [value]="user.id" [selected]="getUserSelected(user.id)">{{ user.email }}</option>
-      }
-    </select>
-    <div class="text-sm text-thin mb-2">To-do List</div>
-    <div formArrayName="todos">
-      @for (todo of form.controls.todos.controls; track todo;  let index = $index) {
-        <div [formGroupName]="index">
-          <input type="checkbox" formControlName="completed" />
-          <input
-            type="text"
-            placeholder="description"
-            formControlName="description"
-            class="pl-2 text-xs bg-transparent"
-          />
-          <button type="button" (click)="removeTodo(index)" class="text-xs">Remove</button>
-        </div>
-      }
-      <div class="flex items-center space-x-1">
-        <div class="w-3 pl-1 pt-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-            <path
-              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-            />
-          </svg>
-        </div>
-        <button type="button" (click)="addTodo()" class="text-xs mt-1">Add</button>
+        <input
+          type="text"
+          placeholder="Ange projekt"
+          formControlName="project"
+          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder:uppercase tracking-wider"
+        />
+        <input
+          type="text"
+          placeholder="Ange entreprenör"
+          formControlName="contractor"
+          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder: uppercase tracking-wider"
+        />
       </div>
-    </div>
-    <textarea
-      formControlName="description"
-      class="min-w-full rounded-sm h-32 px-1 py-1 text-xs"
-    ></textarea>
-    <div class="flex items-center justify-end space-x-2 mt-6">
-      <button
-        type="reset"
-        (click)="onDelete()"
-        class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700"
-      >
-        Delete
+    
+        @if (api.auth.user()?.admin) {
+          <input
+            type="file"
+            accept="application/pdf"
+            class="
+              file:bg-green
+              file:px-4 file:py-2 file:m-3
+              file:border-none
+              file:rounded-full
+              file:text-white
+              file:cursor-point
+              file: shadow-lg
+              ml-7
+              mt-8
+              bg-lightGray
+              text-white
+              rounded-full
+            "
+            (dragenter)="isDragover = true"
+            (dragleave)="isDragover = false"
+            (change)="onUploadFile($event)"
+            [class.border-red-500]="isDragover"
+          />
+          
+          <button type="button" (click)="onDeleteFile()" class="text-red uppercase ml-6">Ta bort</button>
+        }
+
+      <div class="ml-7 my-6 text-sm">
+        @if (report()?.file) {
+          <a class="border border-red-600" [href]="report()!.file.url" [download]="report()!.file.name">
+            {{ report()!.file.name }}
+          </a>
+      }
+      <div class="pr-7 pt-6">
+        <hr class="text-lightGray"/>
+      </div>
+      </div>
+        <div class="text-sm mb-2 ml-7 underline">Användare med tillgång till rapporten</div>
+        <select multiple formControlName="users" class="w-[228px] ml-7 my-3 text-sm">
+          @for (
+            user of users();
+            track user.id;
+          ) {
+            <option [value]="user.id" [selected]="getUserSelected(user.id)">{{ user.email }}</option>
+          }
+        </select>
+        <div class="px-7">
+        <hr class="text-lightGray"/>
+      </div>
+      <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Åtgärdslista</div>
+      <div formArrayName="todos">
+        @for (todo of form.controls.todos.controls; track todo;  let index = $index) {
+          <div [formGroupName]="index">
+            <input type="checkbox" formControlName="completed" class="ml-7"/>
+            <input
+              type="text"
+              placeholder="description"
+              formControlName="description"
+              class="pl-2 text-xs bg-transparent"
+            />
+            <button type="button" (click)="removeTodo(index)" class="text-xs uppercase text-red">Ta bort</button>
+          </div>
+        }
+        <div class="flex items-center space-x-1">
+          <div class="w-3 pl-1 pt-1.5 ml-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+              <path
+                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+              />
+            </svg>
+          </div>
+          <button type="button" (click)="addTodo()" class="text-xs mt-1">Lägg till</button>
+        </div>
+      </div>
+      <div class="px-7 pt-6">
+        <hr class="text-lightGray"/>
+      </div>
+      <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Anteckningar</div>
+      <div class="mx-7 mt-6">
+        <textarea
+          formControlName="description"
+          class="border-[1px] border-lightGray w-full min-h-32"
+        ></textarea>
+      </div>
+      <div class="flex items-center justify-between mt-6 mb-3">
+        <button class="text-xs ml-7">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-2 inline pb-0.5"><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+        Tillbaka
       </button>
-      <button
-        type="submit"
-        [disabled]="form.invalid"
-        class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
-      >
-        Save
-      </button>
-    </div>
-  </form>
+      <div>
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="button-save-base mr-4"
+        >
+          Spara
+        </button>
+        <button
+          type="reset"
+          (click)="onDelete()"
+          class="text-red pr-7 text-xs uppercase"
+        >
+          Ta bort
+        </button>
+      </div>
+      </div>
+    </form>
+  </div>
 </div>
