@@ -1,50 +1,55 @@
-<div class="min-h-screen flex flex-col justify-between bg-white">
+<div class="min-h-screen flex flex-col bg-white">
   <div class="flex flex-col flex-grow">
+    
     <nav class="flex items-center justify-between bg-teal">
-      <div class="w-36 pl-8 pb-4 pt-5">
-        <a href="/">
-          <img src="assets/images/Moxy_Logotype_Payoff_WHITE.png" alt="moxyid-logo">
-        </a>
-      </div>
+      
+        <div class="w-36 pl-8 pb-4 pt-5">
+          <a href="/">
+            <img src="assets/images/Moxy_Logotype_Payoff_WHITE.png" alt="moxyid-logo">
+          </a>
+        </div>
 
       <div class="flex flex-row mt-1">
-        <ul class="flex flex-row justify-center space-x-6 pt-4 text-white text-md mr-[28rem]">
-          @if (api.auth.user()?.admin) {
-          <li>
-            <a routerLink="users">Användare</a>
-          </li>
-          }
-          <li>
-            <a routerLink="reports">Rapporter</a>
-          </li>
-        </ul>
-        
-        <ul class="flex flex-row justify-end space-x-6 pr-10 py-4 text-white text-md">
-          @if (api.auth.user(); as user) {
+        <div>
+          <ul class="flex flex-row justify-center space-x-6 pt-4 text-white text-md">
+            @if (api.auth.user()?.admin) {
             <li>
-              {{ user.email }}
-              @if (user.admin) {
-                <small class="py-2 px-3 ml-3 rounded-full bg-gray">Admin</small>
-              }
-          
+              <a routerLink="users">Användare</a>
             </li>
+            }
             <li>
-              <a
-                routerLink="/"
-                (click)="onSignOut()"
-              >
-                Logga ut</a
-              >
+              <a routerLink="reports">Rapporter</a>
             </li>
-          } @else {
-            <li>
-              <a routerLink="signup">Registrera</a>
-            </li>
-            <li>
-              <a routerLink="signin">Logga in</a>
-            </li>
-          }
-        </ul>
+          </ul>
+        </div>
+        <div>
+          <ul class="flex flex-row justify-end space-x-6 pr-10 py-4 text-white text-md">
+            @if (api.auth.user(); as user) {
+              <li>
+                {{ user.email }}
+                @if (user.admin) {
+                  <small class="py-2 px-3 ml-3 rounded-full bg-gray">Admin</small>
+                }
+            
+              </li>
+              <li>
+                <a
+                  routerLink="/"
+                  (click)="onSignOut()"
+                >
+                  Logga ut</a
+                >
+              </li>
+            } @else {
+              <li>
+                <a routerLink="signup">Registrera</a>
+              </li>
+              <li>
+                <a routerLink="signin">Logga in</a>
+              </li>
+            }
+          </ul>
+        </div>
       </div>
     </nav>
 
