@@ -1,61 +1,55 @@
 <div class="min-h-screen flex flex-col bg-white">
   <div class="flex flex-col flex-grow">
-    
-    <nav class="flex items-center justify-between bg-teal">
-      
-        <div class="w-36 pl-8 pb-4 pt-5">
-          <a href="/">
-            <img src="assets/images/Moxy_Logotype_Payoff_WHITE.png" alt="moxyid-logo">
-          </a>
-        </div>
+    <nav class="flex justify-between items-center bg-teal">
 
-      <div class="flex flex-row mt-1">
-        <div>
-          <ul class="flex flex-row justify-center space-x-6 pt-4 text-white text-md">
-            @if (api.auth.user()?.admin) {
+      <div class="w-36 mr-44 pl-8 pb-4 pt-5">
+        <a href="/">
+          <img src="assets/images/Moxy_Logotype_Payoff_WHITE.png" alt="moxyid-logo">
+        </a>
+      </div>
+
+      <div class="flex-1 flex justify-center pb-4">
+        <ul class="flex flex-row space-x-6 pt-4 text-white text-md">
+          @if (api.auth.user()?.admin) {
+          <li>
+            <a routerLink="users">Användare</a>
+          </li>
+          }
+          <li>
+            <a routerLink="reports">Rapporter</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <ul class="flex flex-row pr-10 py-4 text-white text-md">
+          @if (api.auth.user(); as user) {
             <li>
-              <a routerLink="users">Användare</a>
+              {{ user.email }}
+              @if (user.admin) {
+                <small class="py-2 px-3 ml-3 rounded-full bg-green">Admin</small>
+              } @else {
+                <small class="py-2 px-3 ml-3 rounded-full bg-green">Användare</small>
+              }
             </li>
-            }
             <li>
-              <a routerLink="reports">Rapporter</a>
+              <a routerLink="/" (click)="onSignOut()" class="pl-3">Logga ut</a>
             </li>
-          </ul>
-        </div>
-        <div>
-          <ul class="flex flex-row justify-end space-x-6 pr-10 py-4 text-white text-md">
-            @if (api.auth.user(); as user) {
-              <li>
-                {{ user.email }}
-                @if (user.admin) {
-                  <small class="py-2 px-3 ml-3 rounded-full bg-gray">Admin</small>
-                }
-            
-              </li>
-              <li>
-                <a
-                  routerLink="/"
-                  (click)="onSignOut()"
-                >
-                  Logga ut</a
-                >
-              </li>
-            } @else {
-              <li>
-                <a routerLink="signup">Registrera</a>
-              </li>
-              <li>
-                <a routerLink="signin">Logga in</a>
-              </li>
-            }
-          </ul>
-        </div>
+          } @else {
+            <li>
+              <a routerLink="signup">Registrera</a>
+            </li>
+            <li>
+              <a routerLink="signin" class="pl-3">Logga in</a>
+            </li>
+          }
+        </ul>
       </div>
     </nav>
 
     <section class="flex flex-grow justify-center">
       <div>
-        <router-outlet />
+        <router-outlet></router-outlet>
       </div>
     </section>
   </div>
