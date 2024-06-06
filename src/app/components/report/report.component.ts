@@ -107,7 +107,7 @@ export class ReportComponent {
   }
 
   onDelete() {
-    this.api.users
+    this.api.reports
       .delete(this.reportId)
       // Navigate to /reports after update
       .then(() => this.router.navigate(['reports']))
