@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, ViewContainerRef, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ReactiveFormsModule,
@@ -11,6 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ApiService } from '../../services/api.service';
 import { AsyncPipe, JsonPipe } from '@angular/common';
+import { ConfirmationService } from '../../components/confirmation/confirmation.service';
 
 @Component({
   selector: 'app-report',
@@ -22,6 +23,8 @@ export class ReportComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private reportId = this.activatedRoute.snapshot.params['id'];
+  private viewContainerRef = inject(ViewContainerRef);
+  private confirmationService = inject(ConfirmationService);
 
   api = inject(ApiService);
   report = toSignal(this.api.reports.get(this.reportId));
@@ -106,12 +109,17 @@ export class ReportComponent {
       .catch(console.error);
   }
 
-  onDelete() {
-    this.api.reports
-      .delete(this.reportId)
-      // Navigate to /reports after update
-      .then(() => this.router.navigate(['reports']))
-      .catch(console.error);
+  async onDelete() {
+    const hasConfirmed = await this.confirmationService.askForConfirmation(
+      this.viewContainerRef,
+      'Vill du verkligen ta bort den här rapporten?',
+    );
+    if (hasConfirmed)
+      this.api.reports
+        .delete(this.reportId)
+        // Navigate to /reports after update
+        .then(() => this.router.navigate(['reports']))
+        .catch(console.error);
   }
 
   onUploadFile(event: Event) {
