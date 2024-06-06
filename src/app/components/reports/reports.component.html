@@ -1,17 +1,24 @@
 <div class="container mx-auto px-4 rounded-md">
   <div class="-mx-4 pt-8 flex justify-between">
     <h2 class="text-2xl font-extrabold leading-tight">Rapporter</h2>
-            <button (click)="onCreate()" class="border-[2px] border-lightGray px-1.5 py-1.5 rounded-full">
-            <div class="w-3">
-              <span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-color">
-                        <path
-                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-                        />
-                </svg>
-              </span>
-            </div>
-        </button>
+    <button
+      (click)="onCreate()"
+      class="border-[2px] border-lightGray px-1.5 py-1.5 rounded-full"
+    >
+      <div class="w-3">
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            class="svg-color"
+          >
+            <path
+              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+            />
+          </svg>
+        </span>
+      </div>
+    </button>
   </div>
 
   <div class="-mx-4 mt-4 shadow-md overflow-x-auto">
@@ -41,21 +48,25 @@
             </th>
             <th
               class="px-5 py-3 bg-lightGray text-left text-xs font-semibold uppercase tracking-wider"
-            >
-              
-            </th>
+            ></th>
           </tr>
         </thead>
         <tbody>
           @for (report of reports | async; track report) {
             <tr>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <a class="ml-3" [routerLink]="report.id">{{ report.name }}</a>
               </td>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <span class="ml-3">{{ report.project }}</span>
               </td>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <span class="ml-3">{{ report.contractor }}</span>
               </td>
               <td
@@ -64,14 +75,16 @@
                 <span class="text-red-600">3</span> /
                 <span class="text-green-600">5</span>
               </td>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <button [routerLink]="report['id']" class="button-edit-sm">
                   Edit
                 </button>
               </td>
             </tr>
           }
-        </tbody>      
+        </tbody>
       </table>
     </div>
   </div>

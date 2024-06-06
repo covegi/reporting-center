@@ -20,34 +20,44 @@
             </th>
             <th
               class="px-5 py-3 bg-lightGray text-left text-xs font-semibold uppercase tracking-wider"
-            >
-              
-            </th>
+            ></th>
           </tr>
         </thead>
         <tbody>
           @for (user of users | async; track user) {
             <tr>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <div class="ml-3">
                   <p class="text-slate-900">{{ user.email }}</p>
                 </div>
               </td>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <div class="ml-6">
-                  @if(user.admin) {
-                  <p class="text-slate-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                  </p>
+                  @if (user.admin) {
+                    <p class="text-slate-900">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                        class="w-3"
+                      >
+                        <path
+                          d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+                        />
+                      </svg>
+                    </p>
                   }
                 </div>
               </td>
-              <td class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm">
+              <td
+                class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
+              >
                 <div class="flex items-center justify-center space-x-1.5 mr-3">
                   <button class="button-edit-sm">
-                    <a [routerLink]="user.id">
-                    Edit
-                    </a>
+                    <a [routerLink]="user.id"> Edit </a>
                   </button>
                 </div>
               </td>

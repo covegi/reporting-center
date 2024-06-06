@@ -25,68 +25,80 @@
           class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder: uppercase tracking-wider"
         />
       </div>
-    
-        @if (api.auth.user()?.admin) {
-          <input
-            type="file"
-            accept="application/pdf"
-            class="
-              file:bg-green
-              file:px-4 file:py-2 file:m-3
-              file:border-none
-              file:rounded-full
-              file:text-white
-              file:cursor-point
-              file: shadow-lg
-              ml-7
-              mt-8
-              bg-lightGray
-              text-white
-              rounded-full
-            "
-            (dragenter)="isDragover = true"
-            (dragleave)="isDragover = false"
-            (change)="onUploadFile($event)"
-            [class.border-red-500]="isDragover"
-          />
-          
-          <button type="button" (click)="onDeleteFile()" class="text-red uppercase ml-6">Ta bort</button>
-        }
+
+      @if (api.auth.user()?.admin) {
+        <input
+          type="file"
+          accept="application/pdf"
+          class="file:bg-green file:px-4 file:py-2 file:m-3 file:border-none file:rounded-full file:text-white file:cursor-point file: shadow-lg ml-7 mt-8 bg-lightGray text-white rounded-full"
+          (dragenter)="isDragover = true"
+          (dragleave)="isDragover = false"
+          (change)="onUploadFile($event)"
+          [class.border-red-500]="isDragover"
+        />
+
+        <button
+          type="button"
+          (click)="onDeleteFile()"
+          class="text-red uppercase ml-6"
+        >
+          Ta bort
+        </button>
+      }
 
       <div class="ml-7 my-6 text-sm">
         @if (report()?.file) {
-          <a class="border border-red-600" [href]="report()!.file.url" [download]="report()!.file.name">
+          <a
+            class="border border-red-600"
+            [href]="report()!.file.url"
+            [download]="report()!.file.name"
+          >
             {{ report()!.file.name }}
           </a>
-      }
-      <div class="pr-7 pt-6">
-        <hr class="text-lightGray"/>
+        }
+        <div class="pr-7 pt-6">
+          <hr class="text-lightGray" />
+        </div>
       </div>
+      <div class="text-sm mb-2 ml-7 underline">
+        Användare med tillgång till rapporten
       </div>
-        <div class="text-sm mb-2 ml-7 underline">Användare med tillgång till rapporten</div>
-        <select multiple formControlName="users" class="w-[228px] ml-7 my-3 text-sm">
-          @for (
-            user of users();
-            track user.id;
-          ) {
-            <option [value]="user.id" [selected]="getUserSelected(user.id)">{{ user.email }}</option>
-          }
-        </select>
-        <div class="px-7">
-        <hr class="text-lightGray"/>
+      <select
+        multiple
+        formControlName="users"
+        class="w-[228px] ml-7 my-3 text-sm"
+      >
+        @for (user of users(); track user.id) {
+          <option [value]="user.id" [selected]="getUserSelected(user.id)">
+            {{ user.email }}
+          </option>
+        }
+      </select>
+      <div class="px-7">
+        <hr class="text-lightGray" />
       </div>
       <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Åtgärdslista</div>
       <div formArrayName="todos">
-        @for (todo of form.controls.todos.controls; track todo;  let index = $index) {
+        @for (
+          todo of form.controls.todos.controls;
+          track todo;
+          let index = $index
+        ) {
           <div [formGroupName]="index">
-            <input type="checkbox" formControlName="completed" class="ml-7"/>
+            <input type="checkbox" formControlName="completed" class="ml-7" />
             <input
               type="text"
               placeholder="description"
               formControlName="description"
               class="pl-2 text-xs bg-transparent"
             />
-            <button type="button" (click)="removeTodo(index)" class="text-xs uppercase text-red">Ta bort</button>
+            <button
+              type="button"
+              (click)="removeTodo(index)"
+              class="text-xs uppercase text-red"
+            >
+              Ta bort
+            </button>
           </div>
         }
         <div class="flex items-center space-x-1">
@@ -97,11 +109,13 @@
               />
             </svg>
           </div>
-          <button type="button" (click)="addTodo()" class="text-xs mt-1">Lägg till</button>
+          <button type="button" (click)="addTodo()" class="text-xs mt-1">
+            Lägg till
+          </button>
         </div>
       </div>
       <div class="px-7 pt-6">
-        <hr class="text-lightGray"/>
+        <hr class="text-lightGray" />
       </div>
       <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Anteckningar</div>
       <div class="mx-7 mt-6">
@@ -112,25 +126,33 @@
       </div>
       <div class="flex items-center justify-between mt-6 mb-3">
         <button class="text-xs ml-7">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-2 inline pb-0.5"><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
-        Tillbaka
-      </button>
-      <div>
-        <button
-          type="submit"
-          [disabled]="form.invalid"
-          class="button-save-base mr-4"
-        >
-          Spara
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="w-2 inline pb-0.5"
+          >
+            <path
+              d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"
+            />
+          </svg>
+          Tillbaka
         </button>
-        <button
-          type="reset"
-          (click)="onDelete()"
-          class="text-red pr-7 text-xs uppercase"
-        >
-          Ta bort
-        </button>
-      </div>
+        <div>
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="button-save-base mr-4"
+          >
+            Spara
+          </button>
+          <button
+            type="reset"
+            (click)="onDelete()"
+            class="text-red pr-7 text-xs uppercase"
+          >
+            Ta bort
+          </button>
+        </div>
       </div>
     </form>
   </div>
