@@ -44,6 +44,11 @@
         >
           Ta bort
         </button>
+        @if(isLoading) {
+          <div>
+            Hanterar fil...
+          </div>
+        }
       }
 
       <div class="ml-7 my-6 text-sm">

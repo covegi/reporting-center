@@ -30,6 +30,7 @@ export class ReportComponent {
   report = toSignal(this.api.reports.get(this.reportId));
   users = toSignal(this.api.users.getAll());
 
+  isLoading = false;
   isDragover = false;
 
   form = new FormGroup({
@@ -123,11 +124,20 @@ export class ReportComponent {
   }
 
   onUploadFile(event: Event) {
+    this.isLoading = true;
     const input = event.target as HTMLInputElement;
-    this.api.reports.createFile(this.reportId, input.files!.item(0)!);
+    this.api.reports
+      .createFile(this.reportId, input.files!.item(0)!)
+      .on('state_changed', (uploadTask) => {
+        if (uploadTask.bytesTransferred === uploadTask.totalBytes)
+          this.isLoading = false;
+      });
   }
 
   onDeleteFile() {
-    this.api.reports.deleteFile(this.reportId);
+    this.isLoading = true;
+    this.api.reports
+      .deleteFile(this.reportId)
+      .then(() => (this.isLoading = false));
   }
 }
