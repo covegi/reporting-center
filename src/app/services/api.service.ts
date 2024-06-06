@@ -67,8 +67,6 @@ export class ApiService {
         this.#userObservable.pipe(
           filter((user) => user != null),
           switchMap((user) => {
-            console.log(user);
-            console.log(filterCriteria);
             const collectionRef = collection(this.#firestore, collectionName);
             if (user) {
               if (user.admin || !filterCriteria)
@@ -122,17 +120,18 @@ export class ApiService {
 
   #storageMethods = (collectionName: string) => {
     return {
-      createFile: (id: string, file: File) => {
+      createFile: (id: string, file: File) =>
         uploadBytesResumable(
           ref(this.#storage, `${collectionName}/${id}/${file.name}`),
           file,
-        );
-      },
+        ),
       deleteFile: (id: string) =>
         listAll(ref(this.#storage, `${collectionName}/${id}`)).then(
           (listResult) =>
-            listResult.items.forEach((storageReference) =>
-              deleteObject(storageReference),
+            Promise.all(
+              listResult.items.map((storageReference) =>
+                deleteObject(storageReference),
+              ),
             ),
         ),
     };
