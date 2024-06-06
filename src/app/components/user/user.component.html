@@ -1,40 +1,58 @@
-<div class="container mx-auto rounded-md px-4 sm_px:8 bg-slate-100">
-  <div class="pt-8">
-    <h2 class="text-2xl font-semibold leading-tight">User</h2>
+<div class="container mx-auto rounded-md px-4">
+  <div class="pt-8 flex justify-between">
+    <h2 class="text-2xl font-extrabold leading-tight">Användare</h2>
   </div>
-  <div class="-mx-4 sm:8-mx-8 px-4 py-4 overflow-auto-0">
+
+  <div class="mt-4 overflow-auto-0">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <label class="pl-2 text-slate-600 text-sm">Email
-      <input
-        type="email"
-        placeholder="Email address"
-        formControlName="email"
-        readonly
-        class="min-w-full shadow rounded-lg py-2 pl-3 mb-3 text-sm"
-      />
-    </label>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="group">
-          <label class="pl-2 text-slate-600 text-sm">
+      <label class="text-slate-600 text-sm">
+        <input
+          type="email"
+          placeholder="Email address"
+          formControlName="email"
+          readonly
+          class="input-field"
+        />
+      </label>
+
+      <div class="inline-flex items-center">
+        <div class="group mt-3">
+          <label class="p-3 rounded-full cursor-pointer text-sm">
             <input type="checkbox" /> Admin
           </label>
         </div>
       </div>
-      <div class="flex items-center justify-end space-x-2 mt-6">
-        <button
-          type="reset"
-          (click)="onDelete()"
-          class="min-w-16 px-3 py-1 text-sm font-bold bg-red-600 text-white rounded-md hover:bg-red-700"
-        >
-          Delete
+
+      <div class="flex items-center justify-between space-x-2 mt-12 px-3">
+        <button class="text-xs">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="w-2 inline pb-0.5"
+          >
+            <path
+              d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"
+            />
+          </svg>
+          Tillbaka
         </button>
-        <button
-          type="submit"
-          [disabled]="form.invalid"
-          class="min-w-16 px-3 py-1 text-sm font-bold bg-teal-600 text-white rounded-md hover:bg-tael-700"
-        >
-          Save
-        </button>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="button-save-sm"
+          >
+            Spara
+          </button>
+          <button
+            type="reset"
+            (click)="onDelete()"
+            class="text-xs text-red pl-3 uppercase"
+          >
+            Ta bort
+          </button>
+        </div>
       </div>
     </form>
   </div>

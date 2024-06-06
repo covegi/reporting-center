@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: "Montserrat", sans-serif;
+  }
+}
+
+@layer components {
+  .button-edit-base {
+    @apply bg-cyan rounded-[50px] text-white text-base py-1 px-4;
+  }
+}
+
+@layer components {
+  .button-delete-base {
+    @apply bg-red rounded-[50px] text-white text-base py-1 px-4;
+  }
+}
+
+@layer components {
+  .button-save-base {
+    @apply bg-green rounded-[50px] text-white text-base py-1 px-4;
+  }
+}
+
+@layer components {
+  .button-save-sm {
+    @apply bg-green rounded-[50px] text-white text-xs font-bold py-1 px-3;
+  }
+}
+
+@layer components {
+  .button-delete-sm {
+    @apply bg-red rounded-[50px] text-white text-xs font-bold py-1 px-3;
+  }
+}
+
+@layer components {
+  .button-edit-sm {
+    @apply bg-cyan rounded-[50px] shadow-lg border-lightGray text-white text-xs font-bold py-1 px-3;
+  }
+}
+
+@layer components {
+  .button-back-sm {
+    @apply bg-green rounded-[50px] text-white text-xs font-bold py-1 px-3;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply bg-white w-full border-[1px] border-green rounded-full py-[10px] px-[20px] font-light;
+  }
+}
+
+@layer utilities {
+  .svg-color {
+    fill: lightGray;
+  }
+}
+
+@layer utilities {
+  .svg-color-red {
+    fill: red;
+  }
+}
