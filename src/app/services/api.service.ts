@@ -1,15 +1,19 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import {
   Firestore,
   collection,
-  collectionData,
   doc,
   docData,
   updateDoc,
   deleteDoc,
   addDoc,
   DocumentSnapshot,
+  query,
+  where,
+  collectionData,
+  WhereFilterOp,
+  FieldPath,
 } from '@angular/fire/firestore';
 import {
   Storage,
@@ -24,11 +28,18 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { Observable, firstValueFrom, of, switchMap } from 'rxjs';
+import { Observable, filter, of, switchMap } from 'rxjs';
 
 import { User } from '../interfaces/user.interface';
 import { Report } from '../interfaces/report.interface';
 import { deleteObject } from 'firebase/storage';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+export type FilterCriteria = {
+  fieldPath: string | FieldPath;
+  opStr: WhereFilterOp;
+  value: unknown;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -37,19 +48,48 @@ export class ApiService {
   #firestore = inject(Firestore);
   #storage = inject(Storage);
   #auth = inject(Auth);
-  #user = signal<User | null>(null);
+  #userObservable = authState(this.#auth).pipe(
+    switchMap((authState) =>
+      authState ? this.users.get(authState.uid) : of(null),
+    ),
+  );
+  #user = toSignal(this.#userObservable);
 
   #firestoreMethods = <T>(collectionName: string) => {
     return {
       /** Returns single record from database */
       get: (id: string) =>
-        docData(doc(this.#firestore, collectionName, id)) as Observable<T>,
-      /** Returns all records from database */
-      // TODO: How to handle cases where we only want to return records for a specific user
-      getAll: () =>
-        collectionData(collection(this.#firestore, collectionName), {
+        docData(doc(this.#firestore, collectionName, id), {
           idField: 'id',
-        }) as Observable<Array<T>>,
+        }) as Observable<T>,
+      /** Returns all records from database */
+      getAll: (filterCriteria?: FilterCriteria) =>
+        this.#userObservable.pipe(
+          filter((user) => user != null),
+          switchMap((user) => {
+            console.log(user);
+            console.log(filterCriteria);
+            const collectionRef = collection(this.#firestore, collectionName);
+            if (user) {
+              if (user.admin || !filterCriteria)
+                return collectionData(collectionRef, {
+                  idField: 'id',
+                }) as Observable<Array<T>>;
+              return collectionData(
+                query(
+                  collectionRef,
+                  where(
+                    filterCriteria.fieldPath,
+                    filterCriteria.opStr,
+                    filterCriteria.value,
+                  ),
+                ),
+                { idField: 'id' },
+              ) as Observable<Array<T>>;
+            }
+            return of([]);
+          }),
+        ),
       /** Create new records in database and return its id */
       create: (data: Partial<T> | Record<string, never> = {}) =>
         addDoc(
@@ -76,7 +116,7 @@ export class ApiService {
       /** Signs out user */
       signout: () => signOut(this.#auth),
       /** Stream of auth state changes as the user signs in our signs out */
-      user: this.#user.asReadonly(),
+      user: this.#user,
     };
   };
 
@@ -114,15 +154,5 @@ export class ApiService {
   /** Methods for handling user authentication */
   get auth() {
     return this.#authMethods();
-  }
-
-  constructor() {
-    authState(this.#auth)
-      .pipe(
-        switchMap((authState) =>
-          authState ? this.users.get(authState.uid) : of(null),
-        ),
-      )
-      .subscribe(this.#user.set);
   }
 }

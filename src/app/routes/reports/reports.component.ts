@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 
 import { ApiService } from '../../services/api.service';
 import { Report } from '../../interfaces/report.interface';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-reports',
@@ -15,7 +17,16 @@ export class ReportsComponent {
   private api = inject(ApiService);
   private router = inject(Router);
 
-  reports = this.api.reports.getAll();
+  reports = toObservable(this.api.auth.user).pipe(
+    filter((user) => user != null),
+    switchMap((user) =>
+      this.api.reports.getAll({
+        fieldPath: 'users',
+        opStr: 'array-contains',
+        value: user!.id,
+      }),
+    ),
+  );
 
   getTodos(report: Report) {
     return {
