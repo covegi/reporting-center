@@ -72,14 +72,16 @@
               <td
                 class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm text-center"
               >
-                <span class="text-red-600">3</span> /
-                <span class="text-green-600">5</span>
+                @if(getTodos(report); as todo) {
+                  <span class="text-red-600">{{ todo.resolved }}</span> /
+                  <span class="text-green-600">{{ todo.total }}</span>
+                }
               </td>
               <td
                 class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm"
               >
-                <button [routerLink]="report['id']" class="button-edit-sm">
-                  Edit
+                <button [routerLink]="report.id" class="button-edit-sm">
+                  Ändra
                 </button>
               </td>
             </tr>
