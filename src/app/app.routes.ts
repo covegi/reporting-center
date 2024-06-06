@@ -6,13 +6,13 @@ import {
   redirectUnauthorizedTo,
 } from '@angular/fire/auth-guard';
 
-import { UsersComponent } from './components/users/users.component';
-import { UserComponent } from './components/user/user.component';
-import { ReportsComponent } from './components/reports/reports.component';
-import { ReportComponent } from './components/report/report.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { HomeComponent } from './components/home/home.component';
+import { UsersComponent } from './routes/users/users.component';
+import { UserComponent } from './routes/user/user.component';
+import { ReportsComponent } from './routes/reports/reports.component';
+import { ReportComponent } from './routes/report/report.component';
+import { SignupComponent } from './routes/signup/signup.component';
+import { SigninComponent } from './routes/signin/signin.component';
+import { HomeComponent } from './routes/home/home.component';
 
 export const routes: Routes = [
   {
