@@ -1,5 +1,11 @@
-<dialog #dialogElement class="min-h-44 min-w-44 border border-cyan p-6 text-center">
-  <div>{{ text() }}</div>
-  <button (click)="onConfirm()">Bekräfta</button>
-  <button (click)="onReject()">Ångra</button>
-</dialog>
+<div>
+  <dialog #dialogElement
+    class="min-h-44 min-w-44 bg-teal text-white rounded-xl p-6 text-center
+          flex flex-col items-center justify-center space-y-5">
+    <div>{{ text() }}</div>
+      <div class="space-x-2">
+        <button (click)="onConfirm()" class="text-sm px-3 py-1 border-2 border-white rounded-[50px] hover:border-white hover:bg-white hover:text-black hover:font-medium">Bekräfta</button>
+        <button (click)="onReject()" class="text-sm px-3 py-1 border-2 border-white rounded-[50px] hover:border-white hover:bg-white hover:text-black hover:font-medium">Ångra</button>
+      </div>
+    </dialog>
+</div>
