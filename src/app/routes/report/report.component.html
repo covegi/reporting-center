@@ -57,7 +57,7 @@
           </a>
         }
         @if(isLoading) {
-          <div class="mt-2">
+          <div class="mt-2 ml-2">
             Hanterar fil...
           </div>
         }
@@ -84,14 +84,13 @@
         <hr class="text-lightGray" />
       </div>
       <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Åtgärdslista</div>
-      <div formArrayName="todos" class="mx-7">
-        
+      <div formArrayName="todos" class="mx-7 mt-2">
         @for (
           todo of form.controls.todos.controls;
           track todo;
           let index = $index
         ) {
-          <div [formGroupName]="index">
+          <div [formGroupName]="index" class="flex items-center">
             <input type="checkbox" formControlName="completed" />
             <input
               type="text"
