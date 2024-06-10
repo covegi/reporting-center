@@ -90,7 +90,7 @@
           track todo;
           let index = $index
         ) {
-          <div [formGroupName]="index" class="flex items-center">
+          <div [formGroupName]="index" class="flex items-center mt-2">
             <input type="checkbox" formControlName="completed" />
             <input
               type="text"
@@ -127,7 +127,7 @@
       <div class="mx-7 mt-6">
         <textarea
           formControlName="description"
-          class="border-[1px] border-lightGray w-full min-h-32"
+          class="border-[1px] border-lightGray w-full min-h-32 p-2"
         ></textarea>
       </div>
       <div class="flex items-center justify-between mt-6 mb-3">
@@ -146,7 +146,7 @@
         <div>
           <button
             type="submit"
-            [disabled]="form.invalid"
+            
             class="button-save-base mr-4"
           >
             Spara

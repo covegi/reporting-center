@@ -32,6 +32,8 @@ export class SignupComponent {
     this.api.auth
       .signup(this.form.value.email!, this.form.value.password!)
       .then(() => this.router.navigateByUrl('/reports'))
-      .catch(console.error);
+      .catch(() => {
+        alert('Eposten används redan. Vänligen välj en annan epost.');
+      });
   }
 }

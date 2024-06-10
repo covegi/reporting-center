@@ -29,11 +29,20 @@ export class ReportsComponent {
   );
 
   getTodos(report: Report) {
+    const todos = report.todos ?? []; // Default to an empty array if report.todos is undefined
+    const resolvedTodos = todos.filter((todo) => todo.completed).length;
     return {
-      total: report.todos.length,
-      resolved: report.todos.filter((todo) => todo.completed).length,
+      total: todos.length,
+      resolved: resolvedTodos,
     };
   }
+
+  // getTodos(report: Report) {
+  //   return {
+  //     total: report.todos.length,
+  //     resolved: report.todos.filter((todo) => todo.completed).length,
+  //   };
+  // }
 
   onCreate() {
     this.api.reports
