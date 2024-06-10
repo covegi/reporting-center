@@ -14,7 +14,7 @@ import { filter, switchMap } from 'rxjs';
   templateUrl: './reports.component.html',
 })
 export class ReportsComponent {
-  private api = inject(ApiService);
+  api = inject(ApiService);
   private router = inject(Router);
 
   reports = toObservable(this.api.auth.user).pipe(

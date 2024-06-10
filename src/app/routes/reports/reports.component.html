@@ -1,6 +1,7 @@
 <div class="container mx-auto px-4 rounded-md">
   <div class="-mx-4 pt-8 flex justify-between">
     <h2 class="text-2xl font-extrabold leading-tight">Rapporter</h2>
+  @if (api.auth.user()?.admin) {  
     <button
       (click)="onCreate()"
       class="border-[2px] border-lightGray px-1.5 py-1.5 rounded-full"
@@ -19,6 +20,7 @@
         </span>
       </div>
     </button>
+  }
   </div>
 
   <div class="-mx-4 mt-4 shadow-md overflow-x-auto">
