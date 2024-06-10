@@ -143,22 +143,24 @@
           </svg>
           Tillbaka
         </button>
-        <div>
-          <button
-            type="submit"
-            
-            class="button-save-base mr-4"
-          >
-            Spara
-          </button>
-          <button
-            type="reset"
-            (click)="onDelete()"
-            class="text-red pr-7 text-xs uppercase"
-          >
-            Ta bort
-          </button>
-        </div>
+        @if (api.auth.user()?.admin) {
+          <div>
+            <button
+              type="submit"
+              
+              class="button-save-base mr-4"
+            >
+              Spara
+            </button>
+            <button
+              type="reset"
+              (click)="onDelete()"
+              class="text-red pr-7 text-xs uppercase"
+            >
+              Ta bort
+            </button>
+          </div>
+        }
       </div>
     </form>
   </div>
