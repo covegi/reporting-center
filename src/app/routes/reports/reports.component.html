@@ -73,8 +73,13 @@
                 class="px-2 py-5 border-b-[1px] border-lightGray bg-white text-sm text-center"
               >
                 @if(getTodos(report); as todo) {
-                  <span class="text-red-600">{{ todo.resolved }}</span> /
-                  <span class="text-green-600">{{ todo.total }}</span>
+                  @if (todo.resolved === todo.total) {
+                    <span class="text-darkGreen">{{ todo.resolved }}</span> /
+                    <span class="text-gray">{{ todo.total }}</span>
+                  } @else {
+                    <span class="text-red">{{ todo.resolved }}</span> /
+                    <span class="text-gray">{{ todo.total }}</span>
+                  }
                 }
               </td>
               <td
