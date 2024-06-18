@@ -14,6 +14,7 @@ import {
   collectionData,
   WhereFilterOp,
   FieldPath,
+  getDoc,
 } from '@angular/fire/firestore';
 import {
   Storage,
@@ -136,6 +137,8 @@ export class ApiService {
         ),
     };
   };
+
+  
 
   /** Database methods for `User` object */
   get users() {
