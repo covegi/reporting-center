@@ -3,26 +3,26 @@
     <h2 class="text-2xl font-extrabold leading-tight">Rapport</h2>
   </div>
 
-  <div class="-mx-4 mt-4 shadow-md overflow-x-auto">
+  <div class="-mx-4 mt-4 shadow-md overflow-x-auto pt-3 border-t border-lightGray">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-2">
       <div class="flex justify-start space-x-3 h-5">
         <input
           type="text"
           placeholder="Ange rapportnamn"
           formControlName="name"
-          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder:uppercase tracking-wider"
+          class="px-5 py-3 text-left text-xs font-semibold placeholder:uppercase tracking-wider"
         />
         <input
           type="text"
           placeholder="Ange projekt"
           formControlName="project"
-          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder:uppercase tracking-wider"
+          class="px-5 py-3 text-left text-xs font-semibold placeholder:uppercase tracking-wider"
         />
         <input
           type="text"
           placeholder="Ange entreprenör"
           formControlName="contractor"
-          class="px-5 py-3 bg-lightGray text-left text-xs font-semibold placeholder: uppercase tracking-wider"
+          class="px-5 py-3 text-left text-xs font-semibold placeholder:uppercase tracking-wider"
         />
       </div>
 
@@ -44,23 +44,24 @@
         >
           Ta bort
         </button>
-        @if(isLoading) {
-          <div>
-            Hanterar fil...
-          </div>
-        }
       }
 
-      <div class="ml-7 my-6 text-sm">
+      <div class="mx-7 my-6 text-sm">
         @if (report()?.file) {
           <a
-            class="border border-red-600"
+            class="ml-2"
             [href]="report()!.file.url"
             [download]="report()!.file.name"
           >
             {{ report()!.file.name }}
           </a>
         }
+        @if(isLoading) {
+          <div class="mt-2 ml-2">
+            Hanterar fil...
+          </div>
+        }
+
         <div class="pr-7 pt-6">
           <hr class="text-lightGray" />
         </div>
@@ -83,19 +84,19 @@
         <hr class="text-lightGray" />
       </div>
       <div class="text-sm text-thin mt-6 mb-2 ml-7 underline">Åtgärdslista</div>
-      <div formArrayName="todos">
+      <div formArrayName="todos" class="mx-7 mt-2">
         @for (
           todo of form.controls.todos.controls;
           track todo;
           let index = $index
         ) {
-          <div [formGroupName]="index">
-            <input type="checkbox" formControlName="completed" class="ml-7" />
+          <div [formGroupName]="index" class="flex items-center mt-2">
+            <input type="checkbox" formControlName="completed" />
             <input
               type="text"
-              placeholder="description"
+              placeholder="Beskrivning"
               formControlName="description"
-              class="pl-2 text-xs bg-transparent"
+              class="w-96 pl-2 text-xs bg-transparent"
             />
             <button
               type="button"
@@ -107,7 +108,7 @@
           </div>
         }
         <div class="flex items-center space-x-1">
-          <div class="w-3 pl-1 pt-1.5 ml-6">
+          <div class="w-3 pl-1 pt-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
               <path
                 d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
@@ -126,7 +127,7 @@
       <div class="mx-7 mt-6">
         <textarea
           formControlName="description"
-          class="border-[1px] border-lightGray w-full min-h-32"
+          class="border-[1px] border-lightGray w-full min-h-32 p-2"
         ></textarea>
       </div>
       <div class="flex items-center justify-between mt-6 mb-3">
@@ -142,22 +143,24 @@
           </svg>
           Tillbaka
         </button>
-        <div>
-          <button
-            type="submit"
-            [disabled]="form.invalid"
-            class="button-save-base mr-4"
-          >
-            Spara
-          </button>
-          <button
-            type="reset"
-            (click)="onDelete()"
-            class="text-red pr-7 text-xs uppercase"
-          >
-            Ta bort
-          </button>
-        </div>
+        @if (api.auth.user()?.admin) {
+          <div>
+            <button
+              type="submit"
+              
+              class="button-save-base mr-4"
+            >
+              Spara
+            </button>
+            <button
+              type="reset"
+              (click)="onDelete()"
+              class="text-red pr-7 text-xs uppercase"
+            >
+              Ta bort
+            </button>
+          </div>
+        }
       </div>
     </form>
   </div>

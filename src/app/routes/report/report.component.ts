@@ -91,13 +91,16 @@ export class ReportComponent {
   constructor() {
     // Populates the form with the values stored in database
     effect(() => {
-      if (this.report()) {
+      const reportData = this.report();
+      if (reportData) {
         // Adds form fields for todos based on values in backend
-        this.form.controls.todos.removeAt(0);
-        const todos = this.report()!.todos;
-        if (todos?.length) this.report()!.todos.forEach(this.addTodo);
+        this.form.controls.todos.clear(); // Clear todos instead of removing one by one
+        const todos = reportData.todos ?? [];
+        if (todos.length) {
+          todos.forEach(() => this.addTodo());
+        }
         // Set form values based on values in backend
-        this.form.patchValue(this.report()!);
+        this.form.patchValue(reportData);
       }
     });
   }
@@ -126,12 +129,17 @@ export class ReportComponent {
   onUploadFile(event: Event) {
     this.isLoading = true;
     const input = event.target as HTMLInputElement;
-    this.api.reports
-      .createFile(this.reportId, input.files!.item(0)!)
-      .on('state_changed', (uploadTask) => {
-        if (uploadTask.bytesTransferred === uploadTask.totalBytes)
-          this.isLoading = false;
-      });
+    const file = input.files?.item(0);
+    if (file) {
+      this.api.reports
+        .createFile(this.reportId, file)
+        .on('state_changed', (uploadTask) => {
+          if (uploadTask.bytesTransferred === uploadTask.totalBytes)
+            this.isLoading = false;
+        });
+    } else {
+      this.isLoading = false;
+    }
   }
 
   onDeleteFile() {

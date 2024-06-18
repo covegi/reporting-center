@@ -41,9 +41,15 @@ export const onFileCreate = storage.onObjectFinalized(async (event) => {
       //   <Details>Anonymous caller does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource (or it may not exist).</Details>
       // </Error>
       const url = getStorage().bucket().file(event.data.name).publicUrl();
+
       logger.log(`public url was generated`, url);
 
       logger.debug(`add file information to database`);
+
+      logger.log(`signed URL was generated`, url);
+
+      logger.debug(`add file information to database`);
+
 
       return documentSnapshot.ref
         .update({

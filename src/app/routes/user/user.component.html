@@ -11,20 +11,20 @@
           placeholder="Email address"
           formControlName="email"
           readonly
-          class="input-field"
+          class="input-field w-72"
         />
       </label>
 
-      <div class="inline-flex items-center">
-        <div class="group mt-3">
-          <label class="p-3 rounded-full cursor-pointer text-sm">
-            <input type="checkbox" formControlName="admin" /> Admin
+      <div>
+        <div class="group mt-3 flex items-center">
+          <label class="pl-3 rounded-full cursor-pointer text-sm">
+            <input type="checkbox" formControlName="admin" class="mr-1 text-sn"/> Admin
           </label>
         </div>
       </div>
 
-      <div class="flex items-center justify-between space-x-2 mt-12 px-3">
-        <button class="text-xs">
+      <div class="flex items-center justify-between space-x-2 mt-12">
+        <button class="text-xs ml-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -41,14 +41,14 @@
           <button
             type="submit"
             [disabled]="form.invalid"
-            class="button-save-sm"
+            class="button-save-base mr-4"
           >
             Spara
           </button>
           <button
             type="reset"
             (click)="onDelete()"
-            class="text-xs text-red pl-3 uppercase"
+            class="text-red text-xs uppercase mr-1"
           >
             Ta bort
           </button>
